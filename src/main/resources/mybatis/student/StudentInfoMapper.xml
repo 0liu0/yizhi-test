@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yizhi.student.dao.StudentInfoDao">
+
+    <select id="get" resultType="com.yizhi.student.domain.StudentInfoDO">
+        select id,
+               student_id,
+               exam_id,
+               class_id,
+               student_name,
+               certify,
+               mail_address,
+               foreign_lanaguage,
+               student_sex,
+               nation,
+               political,
+               card_id,
+               telephone,
+               subject_type,
+               tocollege,
+               tocampus,
+               tomajor,
+               birthplace,
+               grade,
+               isstate,
+               birthday,
+               note,
+               add_time,
+               add_userid,
+               edit_time,
+               edit_userid
+        from s_student_info
+        where id = #{id}
+    </select>
+    <select id="list" parameterType="java.util.Map" resultType="com.yizhi.student.domain.StudentInfoDO">
+        select id,
+        student_id,
+        exam_id,
+        class_id,
+        student_name,
+        certify,
+        mail_address,
+        foreign_lanaguage,
+        student_sex,
+        nation,
+        political,
+        card_id,
+        telephone,
+        subject_type,
+        tocollege,
+        tocampus,
+        tomajor,
+        birthplace,
+        grade,
+        isstate,
+        birthday,
+        note,
+        add_time,
+        add_userid,
+        edit_time,
+        edit_userid
+        from s_student_info
+        <where>
+            <if test="name!=null and name!=''">
+                student_name like concat('%',#{name},'%')
+            </if>
+            <if test="tocollegeId!=null and tocollegeId!=''">
+                and tocollege = #{tocollegeId}
+            </if>
+            <if test="tomajorId!=null and tomajorId!=''">
+                and tomajor = #{tomajorId}
+            </if>
+            <if test="classId!=null and classId!=''">
+                and class_id = #{classId}
+            </if>
+        </where>
+        limit #{currPage},#{pageSize}
+    </select>
+    <select id="count" resultType="int">
+        select count(*) from s_student_info
+        <where>
+            <if test="name!=null and name!=''">
+                student_name like concat('%',#{name},'%')
+            </if>
+            <if test="tocollegeId!=null and tocollegeId!=''">
+                and tocollege = #{tocollegeId}
+            </if>
+            <if test="tomajorId!=null and tomajorId!=''">
+                and tomajor = #{tomajorId}
+            </if>
+            <if test="classId!=null and classId!=''">
+                and class_id = #{classId}
+            </if>
+        </where>
+    </select>
+    <insert id="save">
+        insert into s_student_info (student_id,
+                                    exam_id,
+                                    class_id,
+                                    student_name,
+                                    certify,
+                                    mail_address,
+                                    foreign_lanaguage,
+                                    student_sex,
+                                    nation,
+                                    political,
+                                    card_id,
+                                    telephone,
+                                    subject_type,
+                                    tocollege,
+                                    tocampus,
+                                    tomajor,
+                                    birthplace,
+                                    grade,
+                                    isstate,
+                                    birthday,
+                                    note,
+                                    add_userid,
+                                    edit_userid)
+        values (#{studentId}, #{examId}, #{classId}, #{studentName}, #{certify}, #{mailAddress}, #{foreignLanaguage},
+                #{studentSex}, #{nation}, #{political}, #{cardId}, #{telephone}, #{subjectType}, #{tocollege},
+                #{tocampus}, #{tomajor}, #{birthplace}, #{grade}, #{isstate}, #{birthday}, #{note}, #{addUserid},
+                #{editUserid})
+    </insert>
+    <update id="update">
+        update s_student_info
+        set student_id        = #{studentId},
+            exam_id           = #{examId},
+            class_id          = #{classId},
+            student_name      = #{studentName},
+            certify           = #{certify},
+            mail_address      = #{mailAddress},
+            foreign_lanaguage = #{foreignLanaguage},
+            student_sex       = #{studentSex},
+            nation            = #{nation},
+            political         = #{political},
+            card_id           = #{cardId},
+            telephone         = #{telephone},
+            subject_type      = #{subjectType},
+            tocollege         = #{tocollege},
+            tomajor           = #{tomajor},
+            birthplace        = #{birthplace},
+            grade             = #{grade},
+            isstate           = #{isstate},
+            birthday          = #{birthday},
+            note              = #{note}
+        where id = #{id}
+    </update>
+    <delete id="remove">
+        delete
+        from s_student_info
+        where id = #{id}
+    </delete>
+    <delete id="batchRemove">
+        DELETE FROM s_student_info WHERE id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
